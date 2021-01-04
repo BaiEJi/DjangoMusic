@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'play',
     'search',
     'comment',
+    'singer',
 ]
 # 添加中间件LocaleMiddleware
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ TEMPLATES = [
                   os.path.join(BASE_DIR, 'user/templates'),
                   os.path.join(BASE_DIR, 'play/templates'),
                   os.path.join(BASE_DIR, 'comment/templates'),
+                  os.path.join(BASE_DIR, 'singer/templates'),
                   ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -94,7 +96,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'music_db',
         'USER':'root',
-        'PASSWORD':'password',
+        'PASSWORD':'blitz0707',
         'HOST':'127.0.0.1',
         'PORT':'3306',
     }
