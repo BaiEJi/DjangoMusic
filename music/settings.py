@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'play',
     'search',
     'comment',
+    'message',
 ]
 # 添加中间件LocaleMiddleware
 MIDDLEWARE = [
@@ -70,6 +71,7 @@ TEMPLATES = [
                   os.path.join(BASE_DIR, 'user/templates'),
                   os.path.join(BASE_DIR, 'play/templates'),
                   os.path.join(BASE_DIR, 'comment/templates'),
+                  os.path.join(BASE_DIR, 'message/templates'),
                   ],
         'APP_DIRS': True,
         'OPTIONS': {

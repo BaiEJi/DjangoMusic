@@ -28,9 +28,11 @@
 	<div class="nav-box">
     <div class="nav-box-inner">
         <ul class="nav clearfix">
+            <!-- lzy： 1.注册app 2.APP的urls里面path里面有那么属性（url后面的要与之对应） -->
             <li><a href="/">首页</a></li>
             <li><a href="{% url 'ranking' %}" target="_blank">歌曲排行</a></li>
             <li><a href="{% url 'home' 1 %}" target="_blank">用户中心</a></li>
+            <li><a href="{% url 'message' %}" target="_blank">留言板</a></li>
         </ul>
         <div class="category-nav">
             <div class="category-nav-header">
