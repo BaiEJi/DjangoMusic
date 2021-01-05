@@ -12,7 +12,7 @@ class Message(models.Model):
     message_id = models.AutoField('留言序号', primary_key=True)
     message_text = models.TextField('留言内容', max_length=1000, null=True, blank=True)
     message_user = models.CharField('留言用户', max_length=20, null=True, blank=True)
-    message_date = models.CharField('日期', max_length=50, null=True, blank=True)
+    message_date = models.CharField('日期', max_length=150, null=True, blank=True)
     message_like = models.IntegerField('点赞数', default=0)
 
     def __str__(self):
