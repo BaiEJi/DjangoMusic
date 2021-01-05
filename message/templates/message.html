@@ -43,32 +43,38 @@
 {#		</div>#}
 {#		<div class="page-title" id="currentSong"></div>#}
 {#	</div>#}
-	<div class="wrapper">
-        <div class="section">
-            <div class="section-header"><h3 class="section-title">网友点评</h3></div>
-            <div class="section-content messages-score-new review-messages-score clearfix">
-                <div class="clearfix">
+{#	<div class="wrapper">#}
+{#        <div class="section">#}
+{#            <div class="section-header"><h3 class="section-title">大家的留言</h3></div>#}
+{#            <div class="section-content messages-score-new review-messages-score clearfix">#}
+{#                <div class="clearfix">#}
+{##}
+{#                <!--点评框-->#}
+{#                    <p></p>#}
+{#                    <div class="messages-box">#}
+{#                    <div style="font-size:24px" class="messages-box-title">我要留言</div>#}
+{#                    <div class="messages-default-score clearfix"></div>#}
+{#                    <form action="" method="post" id="usrform">#}
+{#                        {% csrf_token %}#}
+{#                        <div class="writebox">#}
+{#                            <textarea rows="12" cols="100" name="message" form="usrform"></textarea>#}
+{#                        </div>#}
+{#                        <div class="messages-box-button clearfix">#}
+{#                        <input type="submit" value="发布" class="_j_cc_post_entry cc-post-entry" id="scoreBtn">#}
+{#                        <div data-role="user-login" class="_j_cc_post_login"></div>#}
+{#                        </div>#}
+{#                        <div id="scoreTips2" style="padding-top:10px;"></div>#}
+{#                    </form>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
 
-                <!--点评框-->
-                    <div class="messages-box">
-                    <div class="messages-box-title">我要点评<<{{ song_name }}>></div>
-                    <div class="messages-default-score clearfix"></div>
-                    <form action="" method="post" id="usrform">
-                        {% csrf_token %}
-                        <div class="writebox">
-                            <textarea name="message" form="usrform"></textarea>
-                        </div>
-                        <div class="messages-box-button clearfix">
-                        <input type="submit" value="发布" class="_j_cc_post_entry cc-post-entry" id="scoreBtn">
-                        <div data-role="user-login" class="_j_cc_post_login"></div>
-                        </div>
-                        <div id="scoreTips2" style="padding-top:10px;"></div>
-                    </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="section">
+    <div class="section-header"><h3 class="section-title" style="font-size:18px">大家的留言 <button type="button" onclick="window.open('http://127.0.0.1:8000/message/messagebutton1')">管理留言</button></h3></div>
+    <div class="section-content messages-score-new review-messages-score clearfix">
+    <br /><br />
 
 
     <div class="wrapper clearfix">
@@ -79,20 +85,24 @@
             <li class="message-item ">
                 <div class="messages-user">
                 <span class="face">
-                <img src="{% static "image/user.jpg" %}" width="60" height="60">
+                <img src="{% static "image/user.jpg" %}" width="30" height="30">
                 </span>
                 </div>
                 <div class="messages-list-content">
                 <div class="single-score clearfix">
-                    <span class="date">{{ item.message_date }}</span>
-                    <div><span class="score">{{ item.message_user }}</span></div>
+                    <span  style="font-size:14px">留言日期：</span>
+                    <span class="date"  style="font-size:14px">{{ item.message_date }}</span>
+
+                    <div><span style="font-size:14px">留言用户：</span><span class="score"  style="font-size:14px">{{ item.message_user }}</span></div>
                 </div>
                 <!--messages-content-->
                 <div class="messages-content">
                     <div class="J_messageContent message-height-limit">
                         <div class="content-inner">
                             <div class="messages-words">
-                                <p>{{ item.message_text }}</p>
+                                <span style="font-size:14px">留言内容：</span>
+                                <p style="font-size:20px">{{ item.message_text }}</p>
+                                <br/><br/>
                             </div>
                         </div>
                     </div>
@@ -120,5 +130,36 @@
         </div>
     </div>
 	</div>
+    </div>
+
+
+
+
+    <div class="wrapper">
+{#        <div class="section">#}
+{#            <div class="section-header"><h3 class="section-title">大家的留言</h3></div>#}
+{#            <div class="section-content messages-score-new review-messages-score clearfix">#}
+                <div class="clearfix">
+
+                <!--点评框-->
+                    <p></p>
+                    <div class="messages-box">
+                    <div style="font-size:24px" class="messages-box-title">我要留言</div>
+                    <div class="messages-default-score clearfix"></div>
+                    <form action="" method="post" id="usrform">
+                        {% csrf_token %}
+                        <div class="writebox">
+                            <textarea rows="12" cols="100" name="message" form="usrform"></textarea>
+                        </div>
+                        <div class="messages-box-button clearfix">
+                        <input type="submit" value="发布" class="_j_cc_post_entry cc-post-entry" id="scoreBtn">
+                        <div data-role="user-login" class="_j_cc_post_login"></div>
+                        </div>
+                        <div id="scoreTips2" style="padding-top:10px;"></div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock  %}
