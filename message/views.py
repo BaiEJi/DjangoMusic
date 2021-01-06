@@ -1,8 +1,10 @@
 # Create your views here.
 from django.http import HttpResponse
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import time
 
@@ -13,8 +15,7 @@ def index(request):
 
 
 # 显示留言
-def messageview(request):
-
+def message_view(request):
     # 新增留言
     if request.method == 'POST':
         message_text = request.POST.get('message', '')
@@ -28,7 +29,7 @@ def messageview(request):
             message.message_text = message_text
             message.message_user = message_user
             message.message_date = time.strftime('%Y-%m-%d %H:%M:%S', \
-                                time.localtime(time.time()))
+                                                 time.localtime(time.time()))
             message.save()
 
         return redirect('/message')
@@ -55,15 +56,39 @@ def messageview(request):
 
 
 # 管理留言
-def messageAdmin(request):
-
+def message_admin(request):
     # 根据是否登录以及用户类别 做出不同的动作
     if request.user.username:
         if request.user.username == 'superuser':
             return redirect('http://127.0.0.1:8000/admin/message/message/')
 
         else:
-            return HttpResponse('只有超级用户有资格管理留言！')
+            messages.warning(request, '只有超级用户有资格管理留言！')
+            # return HttpResponse('只有超级用户有资格管理留言！')
+            return redirect('/message/')
 
     else:
-        return HttpResponse('请登录超级用户账号')
+        # return HttpResponse('请登录超级用户账号')
+        messages.warning(request, '请登录超级用户账号')
+        return redirect('/message/')
+
+
+# 留言点赞
+@csrf_exempt
+def message_good(request):
+    # 点赞的留言序号
+    if request.method == 'POST':
+        pass
+
+    message_id = request.POST
+    print(message_id)
+    message_id = int(list(message_id.keys())[0])
+
+    # 更改数据库
+    obj = Message.objects.get(message_id=message_id)
+    like = obj.message_like
+    like = like + 1
+    obj.message_like = like
+    obj.save()
+
+    return redirect('/message')
