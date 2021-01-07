@@ -14,6 +14,15 @@ def indexView(request):
     search_ranking = search_song[:6]
     down_ranking = Dynamic.objects.select_related('song').order_by('-dynamic_down').all()[:6]
     all_ranking = [search_ranking, down_ranking]
+    
+    # 歌曲分类列表
+    All_list = Song.objects.values('song_type').distinct()
+    # 歌曲列表信息
+    song_type = request.GET.get('type', '')
+    if song_type:
+        song_info = Dynamic.objects.select_related('song').filter(song__song_type=song_type).order_by('-dynamic_plays').all()
+    else:
+        song_info = Dynamic.objects.select_related('song').order_by('-dynamic_plays').all()
     return render(request, 'index.html',locals())
 
 
