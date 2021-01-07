@@ -41,9 +41,9 @@
             </div>
             <div class="category-nav-body">
                 <div id="J_CategoryItems" class="category-items">
-                {% for label in label_list  %}
+                    {% for item in All_list  %}
                     <div class="item" data-index="1"><h3>
-                        <a href="javascript:;">{{ label.label_name }}</a></h3>
+                        <a href="{% url 'classify' %}?type={{ item.song_type }}">{{ item.song_type }}</a></h3>
                     </div>
                 {% endfor  %}
                 </div>

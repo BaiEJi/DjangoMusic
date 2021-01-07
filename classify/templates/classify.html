@@ -35,11 +35,27 @@
 	</div><!--end nav-box-->
     <div class="wrapper clearfix">
     <!-- 左侧列表 -->
-    
+    <div class="side">
+  		<!-- 子类分类排行导航 -->
+  		<div class="side-nav">
+			<div class="nav-head">
+				<a href="{% url 'classify' %}">所有歌曲分类</a>
+			</div>
+            <ul id="sideNav" class="cate-item">
+            {% for item in All_list  %}
+                <li class="computer">
+                <div class="main-cate">
+                    <a href="{% url 'classify' %}?type={{ item.song_type }}" class="main-title">{{ item.song_type }}</a>
+                </div>
+                </li>
+            {% endfor  %}
+            </ul>
+        </div>
+  	</div><!-- 左侧列表 end -->
 
 	<div class="main">
 		<div class="main-head-box clearfix">
-			<div class="main-head"><h1>歌曲排行榜</h1></div>
+			<div class="main-head"><h1>歌曲分类</h1></div>
 		</div>
 		<table class="rank-list-table">
 			<tr>

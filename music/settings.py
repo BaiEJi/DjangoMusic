@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'comment',
     'message',
     'singer',
+    'classify',
 ]
 # 添加中间件LocaleMiddleware
 MIDDLEWARE = [
@@ -74,6 +75,7 @@ TEMPLATES = [
                   os.path.join(BASE_DIR, 'comment/templates'),
                   os.path.join(BASE_DIR, 'message/templates'),
                   os.path.join(BASE_DIR, 'singer/templates'),
+                  os.path.join(BASE_DIR, 'classify/templates'),
                   ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -98,7 +100,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'music_db',
         'USER':'root',
-        'PASSWORD':'blitz0707',
+        'PASSWORD':'kym12345',
         'HOST':'127.0.0.1',
         'PORT':'3306',
     }

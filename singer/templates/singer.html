@@ -7,7 +7,9 @@
 </head>
 <body>
     <div class="header">
-        <a href="/" class="logo" title="首页"><img alt="我的音乐" src="{% static "image/logo.png" %}"></a>
+        <a href="/" class="logo" title="首页">
+            <img alt="我的音乐" src="{% static "image/logo.png" %}">
+        </a>
         <div class="search-box">
             <form id="searchForm" action="{% url 'search' 1 %}" method="post" target="_blank">
             {% csrf_token %}
@@ -19,19 +21,42 @@
             <div id="suggest" class="search-suggest"></div>
             <div class="search-hot-words">
                 {% for song in search_song  %}
-                <a target="play" href="{% url 'play' song.song.song_id %}" >{{ song.song.song_name }}</a>
+                <a target="play" href="{% url 'play' song.song.song_id %}" >
+                    {{ song.song.song_name }}
+                </a>
                 {% endfor  %}
             </div>
         </div>
     </div><!--end header-->
+
     <div class="nav-box">
 		<div class="nav-box-inner">
 			<ul class="nav clearfix">
-                <li><a href="/">首页</a></li>
-				<li><a href="{% url 'ranking' %}">歌曲排行</a></li>
-	    	    <li><a href="{% url 'home' 1 %}" target="_blank">用户中心</a></li>
-	    	    <li><a href="{% url 'message' %}" target="_blank">留言板</a></li>
-	    	    <li><a href="{% url 'singer' %}" target="_blank">歌手排行</a></li>
+                <li>
+                    <a href="/">
+                        首页
+                    </a>
+                </li>
+				<li>
+                    <a href="{% url 'ranking' %}">
+                        歌曲排行
+                    </a>
+                </li>
+	    	    <li>
+                    <a href="{% url 'home' 1 %}" target="_blank">
+                        用户中心
+                    </a>
+                </li>
+	    	    <li>
+                    <a href="{% url 'message' %}" target="_blank">
+                        留言板
+                    </a>
+                </li>
+	    	    <li>
+                    <a href="{% url 'singer' %}" target="_blank">
+                        歌手排行
+                    </a>
+                </li>
 			</ul>
 		</div>
 	</div><!--end nav-box-->
@@ -47,7 +72,9 @@
             {% for item in All_list  %}
                 <li class="computer">
                 <div class="main-cate">
-                    <a href="{% url 'singer' %}?type={{ item.singer_type }}" class="main-title">{{ item.singer_type }}</a>
+                    <a href="{% url 'singer' %}?type={{ item.singer_type }}" class="main-title">
+                        {{ item.singer_type }}
+                    </a>
                 </div>
                 </li>
             {% endfor  %}
@@ -57,40 +84,74 @@
 
 	<div class="main">
 		<div class="main-head-box clearfix">
-			<div class="main-head"><h1>歌手排行榜</h1></div>
+			<div class="main-head">
+                <h1>
+                    歌手排行榜
+                </h1>
+            </div>
 		</div>
 		<table class="rank-list-table">
 			<tr>
-				<th class="cell-1">排名</th>
-				<th class="cell-2">照片</th>
-				<th style="text-align:center;" class="cell-3">姓名</th>
-				<th class="cell-4">代表作</th>
-				<th class="cell-5">歌曲数</th>
-				<th class="cell-6">所有作品总播放量</th>
+				<th class="cell-1">
+                    排名
+                </th>
+				<th class="cell-2">
+                    照片
+                </th>
+                <th style="text-align:center;" class="cell-3">
+                    姓名
+                </th>
+				<th class="cell-4">
+                    代表作
+                </th>
+				<th class="cell-5">
+                    歌曲数
+                </th>
+				<th class="cell-6">
+                    所有作品总播放量
+                </th>
 			</tr>
             {% for item in singer_info  %}
                 <tr>
                     {%if forloop.counter < 4  %}
-                    <td><span class="n1">{{forloop.counter}}</span></td>
+                    <td>
+                        <span class="n1">
+                            {{forloop.counter}}
+                        </span>
+                    </td>
                     {%else %}
-                    <td><span class="n2">{{forloop.counter}}</span></td>
+                    <td>
+                        <span class="n2">
+                            {{forloop.counter}}
+                        </span>
+                    </td>
                     {%endif %}
                     <td>
-                    <a href="javascript:;" target="_blank" ><img src="{% static "singerImg/" %}{{ item.singer.singer_img }}"  width="80" height="80"></a>
+                        <a href="{% url 'singerDetials' item.singer.singer_name%}" ><img src="{% static "singerImg/" %}{{ item.singer.singer_img }}"  width="80" height="80"></a>
                     </td>
                     <!-- <td class="name-cell"> -->
-                    <td style="text-align:center;" class="name-cell">{{item.singer.singer_name}}</a></td>
+                    <td style="text-align:center;" class="name-cell">
+                        <a href="{% url 'singerDetials' item.singer.singer_name%}"  >
+                            {{item.singer.singer_name}}
+                        </a>
+                    </td>
                     <!-- <div class="desc">
                     <a href="javascript:;" target="_blank" class="type" >{{item.song.song_singer}}</a>
                     </div> -->
                     <!-- </td> -->
                     <td>
-                    <div style="text-align:center;">{{item.singer.singer_masterwork}}</div>
+                        <div style="text-align:center;">
+                            {{item.singer.singer_masterwork}}
+                        </div>
                     </td>
                     <td>
-                    <div style="text-align:center;">{{item.singer.song_nums}}</div>
+                        <div style="text-align:center;">
+                            {{item.singer.song_nums}}
+                        </div>
                     </td>
-                    <td class="num-cell">{{item.singerynamic.singer_plays}}</td>
+                    <td class="num-cell">
+                        {{item.singerynamic.singer_plays}}
+                    </td>
                 </tr>
             {% endfor  %}
         </table>

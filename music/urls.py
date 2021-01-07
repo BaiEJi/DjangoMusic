@@ -29,6 +29,7 @@ urlpatterns = [
     path('user/', include('user.urls')),
     path('message/', include('message.urls')),
     path('singer/', include('singer.urls')),
+    path('classify/', include('classify.urls')),
     # 设置项目上线的静态资源路径
     # url('^static/(?P<path>.*)$', static.serve,
     #     {'document_root': settings.STATIC_ROOT}, name='static')
