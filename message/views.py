@@ -7,6 +7,7 @@ from django.http import Http404
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from .form import *
 import time
 
 
@@ -16,7 +17,9 @@ def index(request):
 
 
 # 显示留言
+@csrf_exempt
 def message_view(request):
+    # choice = ChoiceForm()
     # 新增留言
     if request.method == 'POST':
         message_text = request.POST.get('message', '')
@@ -95,6 +98,27 @@ def message_good(request):
     return redirect('/message')
 
 
+# 留言点踩
+@csrf_exempt
+def message_bad(request):
+    # 点赞的留言序号
+    if request.method == 'POST':
+        pass
+
+    message_id = request.POST
+    print(message_id)
+    message_id = int(list(message_id.keys())[0])
+
+    # 更改数据库
+    obj = Message.objects.get(message_id=message_id)
+    like = obj.message_like
+    like = like - 1
+    obj.message_like = like
+    obj.save()
+
+    return redirect('/message')
+
+
 # 搜索留言
 def searchview(request, page):
     # return HttpResponse('hello')
@@ -107,14 +131,16 @@ def searchview(request, page):
 
         if kword:
             # Q or
-            message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user'). \
+            message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user',
+                                                  'message_date'). \
                 filter(Q(message_text__icontains=kword) | Q(message_user=kword) | Q(message_date__icontains=kword)). \
                 order_by('message_like').all()
 
         # 返回点赞数最高的50条
         else:
-            message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user'). \
-                               order_by('message_like').all()[:50]
+            message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user',
+                                                  'message_date'). \
+                               order_by('-message_like').all()[:50]
 
         # page
         paginator = Paginator(message_info, 8)
@@ -130,11 +156,130 @@ def searchview(request, page):
 
     else:
         # 处理post请求，重定向搜索页面
+        message_text = request.POST.get('message', '')
+        if request.user.username:
+            message_user = request.user.username
+        else:
+            message_user = 'Anonymous'
+
+        if message_text:
+            message = Message()
+            message.message_text = message_text
+            message.message_user = message_user
+            message.message_date = time.strftime('%Y-%m-%d %H:%M:%S', \
+                                                 time.localtime(time.time()))
+            message.save()
+
         request.session['kword'] = request.POST.get('kword', '')
         return redirect('1.html')
 
 
 # 设置404、500错误状态码
 from index import views
+
 handler404 = views.page_not_found
 handler500 = views.page_not_found
+
+
+# 删除留言 留言页面
+@csrf_exempt
+def message_delete(request):
+    order_choice = ChoiceForm()
+
+    # 获取留言id
+    if request.method == 'POST':
+        pass
+
+    message_id = request.POST
+    message_id = int(list(message_id.keys())[0])
+    print(message_id)
+
+    # 获取留言所属用户
+    # 判断该用户是否有权限删除操作
+    belong_user = Message.objects.get(message_id=message_id).message_user
+    print(belong_user)
+    operate_user = request.user.username
+    if not (operate_user == 'superuser' or operate_user == belong_user):
+        messages.warning(request, '您没有资格这样操作')
+        return redirect('/message/')
+
+    # 更改数据库
+    item = Message.objects.get(message_id=message_id)
+    item.delete()
+
+    return redirect('/message/')
+
+
+# 删除留言 搜索页面
+@csrf_exempt
+def message_search_delete(request):
+    # 获取留言id
+    if request.method == 'POST':
+        pass
+
+    message_id = request.POST
+    message_id = int(list(message_id.keys())[0])
+    print(message_id)
+
+    # 获取留言所属用户
+    # 判断该用户是否有权限删除操作
+    belong_user = Message.objects.get(message_id=message_id).message_user
+    print(belong_user)
+    operate_user = request.user.username
+    if not (operate_user == 'superuser' or operate_user == belong_user):
+        messages.warning(request, '您没有资格这样操作')
+        return redirect('messagesearch/1.html')
+
+    # 更改数据库
+    item = Message.objects.get(message_id=message_id)
+    item.delete()
+
+    return redirect('messagesearch/1.html')
+
+
+# 搜索页面
+# 留言点赞
+@csrf_exempt
+def message_good2(request):
+    # 点赞的留言序号
+    if request.method == 'POST':
+        pass
+
+    message_id = request.POST
+    print(message_id)
+    message_id = int(list(message_id.keys())[0])
+
+    # 更改数据库
+    obj = Message.objects.get(message_id=message_id)
+    like = obj.message_like
+    like = like + 1
+    obj.message_like = like
+    obj.save()
+
+    return redirect('messagesearch/1.html')
+
+
+# 留言点踩
+@csrf_exempt
+def message_bad2(request):
+    # 点赞的留言序号
+    if request.method == 'POST':
+        pass
+
+    message_id = request.POST
+    print(message_id)
+    message_id = int(list(message_id.keys())[0])
+
+    # 更改数据库
+    obj = Message.objects.get(message_id=message_id)
+    like = obj.message_like
+    like = like - 1
+    obj.message_like = like
+    obj.save()
+
+    return redirect('messagesearch/1.html')
+
+
+# order
+def message_order(request):
+    return HttpResponse('a')

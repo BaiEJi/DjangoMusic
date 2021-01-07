@@ -50,6 +50,16 @@
                 </button>
             </h3>
 
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <table>
+                    {{ choice.as_table }}
+                </table>
+                <input type="submit" value="确定" , onclick="window.open('http://127.0.0.1:8000/message/messageorder')">
+            </form>
+
+
             <form id="searchForm" action="{% url 'searchmessage' 1 %}" method="post" target="_blank">
                 {% csrf_token %}
                 <div class="search-keyword">
@@ -93,7 +103,9 @@
                                     <form action="http://127.0.0.1:8000/message/messagegood" method="post">
                                         <input type="submit" value="点赞👍" name="{{ item.message_id }}"
                                                onclick="Parsefunc(this.name)"/>
-										<span style="font-size:14px">点赞数：{{item.message_like}}</span>
+{#                                        <input type="submit" value="点踩👎" name="{{ item.message_id }}"#}
+{#                                               onclick="Parsefunc(this.name)"/>#}
+										<span style="font-size:14px">点赞数：{{ item.message_like }}</span>
                                         <script>
                                             function Parsefunc(dataname) {
                                                 var dataname = $(this).attr('name');
@@ -109,8 +121,52 @@
                                         </script>
 
                                     </form>
+
+                                    <form action="http://127.0.0.1:8000/message/messagebad" method="post">
+                                        <input type="submit" value="点踩👎" name="{{ item.message_id }}"
+                                               onclick="Parsefunc(this.name)"/>
+                                        <script>
+                                            function Parsefunc(dataname) {
+                                                var dataname = $(this).attr('name');
+                                                alert(dataname);
+                                                $.ajax({//       url: "/file_parse/",
+                                                    type: "POST",
+                                                    contentType: "application/json",
+                                                    data: JSON.stringify({
+                                                        'data': dataname
+                                                    })
+                                                })
+                                            }
+                                        </script>
+
+                                    </form>
+
+
                                 </span>
                                                         <p style="font-size:20px">{{ item.message_text }}</p>
+
+                                                        {% csrf_token %}
+                                                        <form action="http://127.0.0.1:8000/message/messagedelete"
+                                                              method="post">
+                                                            <input type="submit" value="删除评论"
+                                                                   name="{{ item.message_id }}"
+                                                                   onclick="deletefunc(this.name)"/>
+                                                            <script>
+                                                                function deletefunc(dataname) {
+                                                                    var dataname = $(this).attr('name');
+                                                                    alert(dataname);
+                                                                    $.ajax({//       url: "/file_parse/",
+                                                                        type: "POST",
+                                                                        contentType: "application/json",
+                                                                        data: JSON.stringify({
+                                                                            'data': dataname
+                                                                        })
+                                                                    })
+                                                                }
+                                                            </script>
+                                                        </form>
+
+
                                                         <br/><br/>
                                                     </div>
                                                 </div>
