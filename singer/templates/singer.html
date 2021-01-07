@@ -62,12 +62,13 @@
 		<table class="rank-list-table">
 			<tr>
 				<th class="cell-1">排名</th>
-				<th class="cell-2">图片</th>
-				<th class="cell-3">姓名</th>
-				<th class="cell-4">歌曲数</th>
-				<th class="cell-5">播放量</th>
+				<th class="cell-2">照片</th>
+				<th style="text-align:center;" class="cell-3">姓名</th>
+				<th class="cell-4">代表作</th>
+				<th class="cell-5">歌曲数</th>
+				<th class="cell-6">所有作品总播放量</th>
 			</tr>
-            {% for item in song_info  %}
+            {% for item in singer_info  %}
                 <tr>
                     {%if forloop.counter < 4  %}
                     <td><span class="n1">{{forloop.counter}}</span></td>
@@ -75,21 +76,21 @@
                     <td><span class="n2">{{forloop.counter}}</span></td>
                     {%endif %}
                     <td>
-                    <a href="{% url 'play' item.song.song_id %}"  class="pic" target="play"><img src="{% static "songImg/" %}{{ item.song.song_img }}"  width="80" height="80"></a>
+                    <a href="javascript:;" target="_blank" ><img src="{% static "singerImg/" %}{{ item.singer.singer_img }}"  width="80" height="80"></a>
                     </td>
-                    <td class="name-cell">
-                    <h3><a href="{% url 'play' item.song.song_id %}" target="play" >{{item.song.song_name}}</a></h3>
-                    <div class="desc">
+                    <!-- <td class="name-cell"> -->
+                    <td style="text-align:center;" class="name-cell">{{item.singer.singer_name}}</a></td>
+                    <!-- <div class="desc">
                     <a href="javascript:;" target="_blank" class="type" >{{item.song.song_singer}}</a>
-                    </div>
+                    </div> -->
+                    <!-- </td> -->
+                    <td>
+                    <div style="text-align:center;">{{item.singer.singer_masterwork}}</div>
                     </td>
                     <td>
-                    <div style="text-align:center;">{{item.song.song_album}}</div>
+                    <div style="text-align:center;">{{item.singer.song_nums}}</div>
                     </td>
-                    <td>
-                    <div style="text-align:center;">{{item.dynamic_down}}</div>
-                    </td>
-                    <td class="num-cell">{{item.dynamic_plays}}</td>
+                    <td class="num-cell">{{item.singerynamic.singer_plays}}</td>
                 </tr>
             {% endfor  %}
         </table>
