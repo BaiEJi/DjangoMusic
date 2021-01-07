@@ -7,5 +7,8 @@ urlpatterns = [
     path('messagebutton1', views.message_admin),
 
     # 点赞
-    path('messagegood', views.message_good)
+    path('messagegood', views.message_good),
+
+    # 搜索留言
+    path('messagesearch/<int:page>.html', views.searchview, name= 'searchmessage') ,
 ]

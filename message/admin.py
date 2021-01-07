@@ -30,8 +30,8 @@ class MessageAdmin(admin.ModelAdmin):
             text = form.cleaned_data['message_text']
             mid = self.model.objects.get(pk=obj.pk).message_id
             f = open('D:/Django_music_log.txt', 'a')
-            f.write('留言序号：' + str(mid) +\
-                    '\t用户:' +  name  +'\n留言内容：' + text + '\n')
+            f.write('留言序号：' + str(mid) + \
+                    '\t用户:' + name + '\n留言内容：' + text + '\n')
             f.close()
 
         else:
@@ -39,4 +39,3 @@ class MessageAdmin(admin.ModelAdmin):
 
         # 使用父类的方法
         super(MessageAdmin, self).save_model(request, obj, form, change)
-
