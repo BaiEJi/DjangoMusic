@@ -18,6 +18,7 @@
                 <input id="subSerch" type="submit" class="search-button" value="搜 索"/>
             </form>
             <div id="suggest" class="search-suggest"></div>
+
         </div>
     </div><!--end header-->
     <div class="nav-box">
@@ -42,21 +43,12 @@
     {% endif %}
 
 
-
     <div class="section">
         <div class="section-header">
-            <h3 class="section-title" style="font-size:18px">大家的留言
+            <h3 class="section-title" style="font-size:18px">搜索结果
                 <button type="button" onclick="window.open('http://127.0.0.1:8000/message/messagebutton1')">管理留言
                 </button>
             </h3>
-
-            <form id="searchForm" action="{% url 'searchmessage' 1 %}" method="post" target="_blank">
-                {% csrf_token %}
-                <div class="search-keyword">
-                    <input id="kword" name="kword" type="text" class="keyword" maxlength="120" placeholder="搜索留言"/>
-                </div>
-                <input id="subSerch" type="submit" class="search-button" value="搜 索"/>
-            </form>
 
 
         </div>

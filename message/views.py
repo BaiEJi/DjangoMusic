@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.shortcuts import render, redirect
 from django.http import Http404
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
 import time
@@ -92,3 +93,48 @@ def message_good(request):
     obj.save()
 
     return redirect('/message')
+
+
+# 搜索留言
+def searchview(request, page):
+    # return HttpResponse('hello')
+    if request.method == 'GET':
+        # 搜索评论
+        search_message = Message.objects.all()
+
+        # 获取搜索内容
+        kword = request.session.get('kword', '')
+
+        if kword:
+            # Q or
+            message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user'). \
+                filter(Q(message_text__icontains=kword) | Q(message_user=kword) | Q(message_date__icontains=kword)). \
+                order_by('message_like').all()
+
+        # 返回点赞数最高的50条
+        else:
+            message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user'). \
+                               order_by('message_like').all()[:50]
+
+        # page
+        paginator = Paginator(message_info, 8)
+
+        try:
+            contacts = paginator.page(page)
+        except PageNotAnInteger:
+            contacts = paginator.page(1)
+        except EmptyPage:
+            contacts = paginator.page(paginator.num_pages)
+
+        return render(request, 'messagesearch.html', locals())
+
+    else:
+        # 处理post请求，重定向搜索页面
+        request.session['kword'] = request.POST.get('kword', '')
+        return redirect('1.html')
+
+
+# 设置404、500错误状态码
+from index import views
+handler404 = views.page_not_found
+handler500 = views.page_not_found
