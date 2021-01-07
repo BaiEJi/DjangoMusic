@@ -1,8 +1,14 @@
 from django.urls import path
 from . import views
 urlpatterns = [
-    path('', views.messageview, name='message'),
+    path('', views.message_view, name='message'),
 
     # 留言管理按钮
-    path('messagebutton1', views.messageAdmin)
+    path('messagebutton1', views.message_admin),
+
+    # 点赞
+    path('messagegood', views.message_good),
+
+    # 搜索留言
+    path('messagesearch/<int:page>.html', views.searchview, name= 'searchmessage') ,
 ]
