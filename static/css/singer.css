@@ -1,0 +1,23 @@
+.singer-photo{
+    height:300px;
+    width: 300px;
+    margin-left: 350px;
+    padding-top:65px;
+}
+
+.singer-name {
+    float: left;
+    position: relative;
+    margin-bottom: -2px;
+    padding-right: 2px;
+    background: #fff;
+    margin-top: -300px;
+    margin-left: 700px;
+    font: 24px/1 "Microsoft Yahei";
+}
+
+.singer-info {
+    font-size: 8px;
+    margin-top: 50px;
+    color: #036d3c;
+}
