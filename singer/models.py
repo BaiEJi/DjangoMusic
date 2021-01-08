@@ -11,6 +11,7 @@ class Singer(models.Model):
     singer_sex = models.CharField('性别', max_length=45)
     song_nums = models.CharField('歌曲数', max_length=45)
     singer_img = models.CharField('照片', max_length=45)
+    singer_information = models.CharField('简介', max_length=1000)
     # plays_total = models.CharField('总播放量', max_length=45)
     
     def __str__(self):
