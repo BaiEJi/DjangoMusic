@@ -11,6 +11,8 @@ from .form import *
 import time
 
 
+kword = None
+
 # Create your views here .
 def index(request):
     return HttpResponse("Hello world")
@@ -19,7 +21,7 @@ def index(request):
 # 显示留言
 @csrf_exempt
 def message_view(request):
-    # choice = ChoiceForm()
+    choice = ChoiceForm()
     # 新增留言
     if request.method == 'POST':
         message_text = request.POST.get('message', '')
@@ -82,6 +84,7 @@ def message_admin(request):
 def message_good(request):
     # 点赞的留言序号
     if request.method == 'POST':
+        # print(request.POST)
         pass
 
     message_id = request.POST
@@ -120,13 +123,16 @@ def message_bad(request):
 
 
 # 搜索留言
+@csrf_exempt
 def searchview(request, page):
+    # print(request)
     # return HttpResponse('hello')
     if request.method == 'GET':
         # 搜索评论
         search_message = Message.objects.all()
 
         # 获取搜索内容
+        global kword
         kword = request.session.get('kword', '')
 
         if kword:
@@ -281,5 +287,133 @@ def message_bad2(request):
 
 
 # order
+@csrf_exempt
 def message_order(request):
-    return HttpResponse('a')
+    choice = ChoiceForm(request.POST)
+    if choice.is_valid():
+        type1 = int(choice.cleaned_data['type1'])
+        type2 = int(choice.cleaned_data['type2'])
+        print(type1, type2)
+
+    else:
+        type1 = int(choice.cleaned_data['type1'])
+        type2 = int(choice.cleaned_data['type2'])
+        print(type1, type2)
+
+    # order by message_id
+    if type1 == 1:
+        if type2 == 1:
+            message_all = Message.objects.order_by('message_id')
+        else:
+            message_all = Message.objects.order_by('-message_id')
+
+    # order by user
+    elif type1 == 2:
+        if type2 == 1:
+            message_all = Message.objects.order_by('message_user')
+        else:
+            message_all = Message.objects.order_by('-message_user')
+
+    elif type1 == 3:
+        if type2 == 1:
+            message_all = Message.objects.order_by('message_text')
+        else:
+            message_all = Message.objects.order_by('-message_text')
+
+    elif type1 == 4:
+        if type2 == 1:
+            message_all = Message.objects.order_by('message_date')
+        else:
+            message_all = Message.objects.order_by('-message_date')
+
+    elif type1 == 5:
+        if type2 == 1:
+            message_all = Message.objects.order_by('message_like')
+        else:
+            message_all = Message.objects.order_by('-message_like')
+
+    page = int(request.GET.get('page', 1))
+    # 每页显示的留言条数
+    paginator = Paginator(message_all, 8)
+    try:
+        contacts = paginator.page(page)
+    # 避免出现非整数页码
+    except PageNotAnInteger:
+        contacts = paginator.page(1)
+    except EmptyPage:
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request, 'message.html', locals())
+
+
+# order in search
+@csrf_exempt
+def message_order_search(request, page):
+    choice = ChoiceForm(request.POST)
+
+    if kword:
+        message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user',
+                                              'message_date'). \
+            filter(Q(message_text__icontains=kword) | Q(message_user=kword) | Q(message_date__icontains=kword)).all()
+
+    # 返回点赞数最高的50条
+    else:
+        message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user',
+                                              'message_date'). all()[:50]
+
+    if choice.is_valid():
+        type1 = int(choice.cleaned_data['type1'])
+        type2 = int(choice.cleaned_data['type2'])
+        print(type1, type2)
+
+    else:
+        type1 = int(choice.cleaned_data['type1'])
+        type2 = int(choice.cleaned_data['type2'])
+        print(type1, type2)
+
+    # order by message_id
+    if type1 == 1:
+        if type2 == 1:
+            message_all = message_info.order_by('message_id')
+        else:
+            message_all = message_info.order_by('-message_id')
+
+    # order by user
+    elif type1 == 2:
+        if type2 == 1:
+            message_all = message_info.order_by('message_user')
+        else:
+            message_all = message_info.order_by('-message_user')
+
+    elif type1 == 3:
+        if type2 == 1:
+            message_all = message_info.order_by('message_text')
+        else:
+            message_all = message_info.order_by('-message_text')
+
+    elif type1 == 4:
+        if type2 == 1:
+            message_all = message_info.order_by('message_date')
+        else:
+            message_all = message_info.order_by('-message_date')
+
+    elif type1 == 5:
+        if type2 == 1:
+            message_all = message_info.order_by('message_like')
+        else:
+            message_all = message_info.order_by('-message_like')
+
+
+    message_info = message_all
+
+    # page
+    paginator = Paginator(message_info, 8)
+
+    try:
+        contacts = paginator.page(page)
+    except PageNotAnInteger:
+        contacts = paginator.page(1)
+    except EmptyPage:
+        contacts = paginator.page(paginator.num_pages)
+
+    return render(request, 'messagesearchorder.html', locals())

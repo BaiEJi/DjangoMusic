@@ -21,6 +21,8 @@ urlpatterns = [
     # 搜索留言
     path('messagesearch/<int:page>.html', views.searchview, name= 'searchmessage') ,
 
+    path('messagesearchorder/<int:page>.html', views.message_order_search, name= 'searchmessageorder') ,
+
     # 删除
     path('messagedelete', views.message_delete),
 
@@ -29,4 +31,7 @@ urlpatterns = [
 
     # order
     path('messageorder', views.message_order),
+
+    # # order in search
+    # path('messageordersearch', views.message_order_search)
 ]

@@ -50,22 +50,37 @@
                 </button>
             </h3>
 
-
-            <form action="" method="post">
-                {% csrf_token %}
-                <table>
-                    {{ choice.as_table }}
-                </table>
-                <input type="submit" value="确定" , onclick="window.open('http://127.0.0.1:8000/message/messageorder')">
+            <form action="http://127.0.0.1:8000/message/messageorder" , methon="post">
+            <tr>
+                <th><label for="id_type1">关键字:</label></th>
+                <td><select name="type1" id="id_type1">
+                    <option value="1">默认</option>
+                    <option value="2">用户</option>
+                    <option value="3">内容</option>
+                    <option value="4">发布时间</option>
+                    <option value="5">点赞数</option>
+                </select></td>
+            </tr>
+            <tr>
+                <th><label for="id_type2">排序:</label></th>
+                <td><select name="type2" id="id_type2">
+                    <option value="1">升序</option>
+                    <option value="2">降序</option>
+                </select></td>
+            </tr>
+            <tr>
+            <input type="submit" value="确定" formmethod="post">
+            </tr>
             </form>
 
 
             <form id="searchForm" action="{% url 'searchmessage' 1 %}" method="post" target="_blank">
-                {% csrf_token %}
-                <div class="search-keyword">
+                <tr>
                     <input id="kword" name="kword" type="text" class="keyword" maxlength="120" placeholder="搜索留言"/>
-                </div>
+                </tr>
+                <tr>
                 <input id="subSerch" type="submit" class="search-button" value="搜 索"/>
+                </tr>
             </form>
 
 
