@@ -61,9 +61,11 @@
 			</ul>
 		</div>
     </div><!--end nav-box-->
+    
     <div class="singer-photo">
         <img src="{% static "singerImg/" %}{{ singer_detail.singer_img }}"  width="300" height="300" >
     </div>
+
     <div class="singer-name">
         <h1>
             {{singer_detail.singer_name}}
@@ -73,7 +75,13 @@
                 {{singer_detail.singer_information}}
             </h1>
         </div>
-    </div>  
+        <div class="follow-button" position= "absolute"; top= 10%; left= 50%;>
+            <input type="checkbox"  name=""></input>
+        </div> 
+    </div>
+
+     
+
     <div class="wrapper clearfix">
         <!-- 左侧列表 -->
         <div class="side">
@@ -175,4 +183,5 @@
         </div>
         <script data-main="{% static "js/ranking.js" %}" src="{% static "js/require.js" %}"></script>
     {% endblock  %}
+
     
