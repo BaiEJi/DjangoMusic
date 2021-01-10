@@ -30,6 +30,16 @@
                 <li><a href="/">首页</a></li>
 				<li><a href="{% url 'ranking' %}">歌曲排行</a></li>
                 <li><a href="{% url 'home' 1 %}" target="_blank">用户中心</a></li>
+                <li>
+                    <a href="{% url 'message' %}" target="_blank">
+                        留言板
+                    </a>
+                </li>
+	    	    <li>
+                    <a href="{% url 'singer' %}" target="_blank">
+                        歌手排行
+                    </a>
+                </li>
 			</ul>
 		</div>
 	</div><!--end nav-box-->
