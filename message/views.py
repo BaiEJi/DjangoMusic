@@ -10,8 +10,8 @@ from .models import *
 from .form import *
 import time
 
-
 kword = None
+
 
 # Create your views here .
 def index(request):
@@ -359,7 +359,7 @@ def message_order_search(request, page):
     # 返回点赞数最高的50条
     else:
         message_info = Message.objects.values('message_like', 'message_id', 'message_text', 'message_user',
-                                              'message_date'). all()[:50]
+                                              'message_date').all()[:50]
 
     if choice.is_valid():
         type1 = int(choice.cleaned_data['type1'])
@@ -402,7 +402,6 @@ def message_order_search(request, page):
             message_all = message_info.order_by('message_like')
         else:
             message_all = message_info.order_by('-message_like')
-
 
     message_info = message_all
 
